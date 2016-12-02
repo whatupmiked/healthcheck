@@ -20,7 +20,7 @@ def check():
 
     # 3. Checking Disk  with 'df -ahl --total' or /proc/diskstats
     testTools.name("DISK")
-    sysRun("df -ahl --total")
+    sysRun("df -ahl --total | egrep '(total|Used)'")
 
     # 4. Check TCP ports 'netstat' (API, Nodejs, Openflow, NETCONF, BGP, PCEP, Clustering)
     #   a. Check if listening on 8181
