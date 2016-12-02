@@ -10,12 +10,6 @@ controller_ip = 'localhost' #openflow fails on beryllium & lithium
 #controller_ip = '172.29.230.23'
 #controller_ip = '172.29.230.70'
 
-# Health-check of Openflow nodes connected to controller.
-odlopenflow.check(controller_ip)
-
-# Health-check of Netconf nodes connected to controller.
-odlnetconf.check(controller_ip)
-
 ## Get some information about the system
 # 1. Check CPU count
 # 2. Check Memory
@@ -29,3 +23,11 @@ odlsys.check()
 # 8. Check SSL/TLS config
 # 9. Check clustering config
 #odlcluster.check()
+
+# Health-check of Openflow nodes connected to controller.
+odlopenflow.check(controller_ip)
+
+# Health-check of Netconf nodes connected to controller.
+odlnetconf.check(controller_ip)
+
+
