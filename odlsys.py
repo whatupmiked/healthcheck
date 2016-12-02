@@ -40,4 +40,4 @@ def check():
 
     # 7. Check Compatible OS
     testTools.name("OPERATING SYSTEM")
-    sysRun("cat /etc/*release")
+    sysRun("cat /etc/*release | grep NAME")
