@@ -30,7 +30,7 @@ def check():
 
     # 5. Check Nodejs version
     testTools.name("NODEJS")
-    sysRun("nodejs --version")
+    sysRun("node --version")
 
     # 6. Check Java version, stdout is run in external java process so cannot capture.
     testTools.name("JAVA")
