@@ -4,11 +4,10 @@ import odlcluster
 import odlopenflow
 import odlnetconf
 
-## Get some information about the ODL data-base
 # !!!!!!!!!!!! Need to pass user-name/password as args to auth script !!!!!!!!!!!!!!!!!!!
 
-#controller_ip = 'localhost' #NETCONF fails here
-controller_ip = '172.29.230.23'
+controller_ip = 'localhost' #openflow fails on beryllium & lithium
+#controller_ip = '172.29.230.23'
 #controller_ip = '172.29.230.70'
 
 # Health-check of Openflow nodes connected to controller.
