@@ -4,9 +4,6 @@ import odlcluster
 import odlopenflow
 import odlnetconf
 
-#Define some colors for printing to the terminal
-#http://stackoverflow.com/questions/287871/print-in-terminal-with-colors-using-python
-
 ## Get some information about the ODL data-base
 # !!!!!!!!!!!! Need to pass user-name/password as args to auth script !!!!!!!!!!!!!!!!!!!
 
