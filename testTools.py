@@ -32,3 +32,11 @@ def name(n):
     print("=" * 40, end='\n')
     print("{0}".format(n))
     print("=" * 40, end='\n')
+
+def humanBytes(byte_value):
+    for unit in ['K','M', 'G', 'T', 'P', 'E', 'Z']:
+        if abs(byte_value) < 1024.0:
+            return "{0:.1f} {1}B".format(byte_value, unit)
+        byte_value /= 1024.0
+    return "{0:.1f} {1}B".format(byte_value, "Y")
+

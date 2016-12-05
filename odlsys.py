@@ -9,13 +9,6 @@ def sysRun(command):
         print(line.decode(), end='')
     retval = p.wait()
 
-def humanBytes(byte_value):
-    for unit in ['K','M', 'G', 'T', 'P', 'E', 'Z']:
-        if abs(byte_value) < 1024.0:
-            return "{0:.1f} {1}B".format(byte_value, unit)
-        byte_value /= 1024.0
-    return "{0:.1f} {1}B".format(byte_value, "Y")
-
 ## Get some information about the system
 def check():
     # 1. Check CPU count 'lscpu' or /proc/cpuinfo
@@ -37,8 +30,8 @@ def check():
         if( "SwapTotal" in meminfo_list[i] ):
             swap_total += int(meminfo_list[i].split()[1])
 
-    print("Total Memory: ", humanBytes(mem_total))
-    print("Total Swap: ", humanBytes(swap_total))
+    print("Total Memory: ", testTools.humanBytes(mem_total))
+    print("Total Swap: ", testTools.humanBytes(swap_total))
 
     # 3. Checking Disk  with 'df -ahl --total' or /proc/diskstats
     testTools.name("DISK")
