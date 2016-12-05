@@ -30,8 +30,8 @@ def check():
         if( "SwapTotal" in meminfo_list[i] ):
             swap_total += int(meminfo_list[i].split()[1])
 
-    print("Total Memory: ", testTools.humanBytes(mem_total))
-    print("Total Swap: ", testTools.humanBytes(swap_total))
+    print("{0:{width}}".format("Total Memory: ", width=100) , testTools.humanBytes(mem_total))
+    print("{0:{width}}".format("Total Swap: ", width=100)   , testTools.humanBytes(swap_total))
 
     # 3. Checking Disk  with 'df -ahl --total' or /proc/diskstats
     testTools.name("DISK")
