@@ -30,14 +30,24 @@ def check(controller_ip):
 
     # Check if nodes exist
     print(" " * 1, "{0:{width}}".format("Openflow Node exists", width=99), end='')
-    if not(type(operational_openflow) is list):
+    if (type(operational_openflow) is not list):
         testTools.fail()
         return False
     else:
-        testTools.Pass()
+        #Check if Beryllium ODL opendaylight-inventory
+        if ( "controller-config" in operational_openflow[0].get('id') ):
+            testTools.fail()
+        else:
+            testTools.Pass()
 
     # Iterate over the Openflow list and print the first item in the dictionary
     for i in range(len(operational_openflow)):
+        # Skip loop if this is Beryllium 
+        if ( "controller-config" in operational_openflow[i].get('id') ):
+            print(" " * 4, "{0:{width}}".format("BERYLLIUM TOPOLOGY (controller-config)", width= 96) , end='')
+            testTools.fail()
+            break
+
         #Print id, ip, hw-info, description, serial#
         print((" " * 5) + ("-" * 20))
         print((" " * 4), operational_openflow[i].get('id'))
