@@ -10,7 +10,7 @@ def sysRun(command):
     retval = p.wait()
 
 def humanBytes(byte_value):
-    for unit in ['','M', 'G', 'T', 'P', 'E', 'Z']:
+    for unit in ['K','M', 'G', 'T', 'P', 'E', 'Z']:
         if abs(byte_value) < 1024.0:
             return "{0:.1f} {1}B".format(byte_value, unit)
         byte_value /= 1024.0
