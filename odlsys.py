@@ -1,5 +1,6 @@
 import subprocess
 import testTools
+import os
 
 def sysRun(command):
     print("Running {0}".format(command), end='\n\n')
@@ -7,6 +8,13 @@ def sysRun(command):
     for line in p.stdout.readlines():
         print(line.decode(), end='')
     retval = p.wait()
+
+def humanBytes(byte_value):
+    for unit in ['','M', 'G', 'T', 'P', 'E', 'Z']:
+        if abs(byte_value) < 1024.0:
+            return "{0:.1f} {1}B".format(byte_value, unit)
+        byte_value /= 1024.0
+    return "{0:.1f} {1}B".format(byte_value, "Y")
 
 ## Get some information about the system
 def check():
@@ -16,7 +24,21 @@ def check():
 
     # 2. Check memory 'free -h' or /proc/meminfo
     testTools.name("MEMORY")
-    sysRun("free -h")
+    #sysRun("free -h")
+    meminfo_path = "/proc/meminfo"
+    input = open(meminfo_path, "r")
+    meminfo = input.read()
+    meminfo_list = meminfo.split('\n')
+    mem_total = 0
+    swap_total = 0
+    for i in range(len(meminfo_list)):
+        if( "MemTotal" in meminfo_list[i] ):
+            mem_total += int(meminfo_list[i].split()[1])
+        if( "SwapTotal" in meminfo_list[i] ):
+            swap_total += int(meminfo_list[i].split()[1])
+
+    print("Total Memory: ", humanBytes(mem_total))
+    print("Total Swap: ", humanBytes(swap_total))
 
     # 3. Checking Disk  with 'df -ahl --total' or /proc/diskstats
     testTools.name("DISK")
