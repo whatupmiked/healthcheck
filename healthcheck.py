@@ -6,7 +6,7 @@ import odlnetconf
 
 # !!!!!!!!!!!! Need to pass user-name/password as args to auth script !!!!!!!!!!!!!!!!!!!
 
-controller_ip = 'localhost' #openflow fails on beryllium & lithium
+controller_ip = 'localhost'
 #controller_ip = '172.29.230.23'
 #controller_ip = '172.29.230.70'
 
