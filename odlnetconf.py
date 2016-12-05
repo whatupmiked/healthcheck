@@ -3,6 +3,19 @@ import json
 import jmespath
 import testTools
 
+'''
+import urllib.request
+
+url = "http://api.icndb.com/jokes/random/3"
+
+j = rullib.request.urlopen(url)
+
+jokes = json.loads((j.read()).decode("utf-8"))
+
+for i in range(len(jokes["value"])):
+    print(jokes["value"][i]["id"], ": ", jokes["value"][i]["joke"])
+'''
+
 def check(controller_ip):
 
     testTools.name("NETCONF")
