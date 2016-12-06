@@ -1,6 +1,5 @@
-import requests
+import urllib.request
 import json
-import jmespath
 import testTools
 
 def check(controller_ip):
@@ -10,32 +9,38 @@ def check(controller_ip):
     #ODL query of opendaylight-inventory:nodes
     operational_db_odl = 'http://{0}:8181/restconf/operational/opendaylight-inventory:nodes/'.format(controller_ip)
 
+    #Build urllib object
+    passman = urllib.request.HTTPPasswordMgrWithDefaultRealm()
+    passman.add_password(None, operational_db_odl, 'admin', 'admin')
+    authhandler = urllib.request.HTTPBasicAuthHandler(passman)
+    opener = urllib.request.build_opener(authhandler)
+    urllib.request.install_opener(opener)
+
     try:
         print(" " * 1, "GET: {0:{width}}".format(operational_db_odl, width=94), end='')
         #Make a get call with default auth password admin:admin
-        operational_openflow_request = requests.get(operational_db_odl,auth=('admin','admin'))
+        operational_openflow_request = urllib.request.urlopen(operational_db)
     except:
         #Do not print error only that it failed.
         testTools.fail()
         return False
 
-    if(operational_openflow_request.status_code is not (200 or 201)):
+    if(operational_openflow_request.status is not (200 or 201)):
         testTools.fail()
-        print(" " * 2, "Returned: ", operational_openflow_request.status_code)
+        print(" " * 2, "Returned: ", operational_openflow_request.status)
         return False
 
     #Queried ODL Inventory successfully
     testTools.Pass()
 
     # Convert the request to a string and parse it into dictionary/lists using the json library
-    operational_openflow_json = json.loads(operational_openflow_request.text)
+    operational_openflow_json = json.loads(operational_openflow_request.read().decode())
 
-    # This expression takes all nodes and puts them in a list. The objects inside the list are dictionaries
-    operational_openflow = jmespath.search('nodes.node', operational_openflow_json)
+    operational_openflow = operational_openflow_json["nodes"]["node"]
 
     # Check if nodes exist
     print(" " * 1, "{0:{width}}".format("Openflow Node exists", width=99), end='')
-    if (type(operational_openflow) is not list):
+    if len(operational_openflow) < 1:
         testTools.fail()
         return False
     else:
