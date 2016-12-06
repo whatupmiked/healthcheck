@@ -1,3 +1,4 @@
+import urllib.request
 import json
 import testTools
 
@@ -36,7 +37,7 @@ def check(controller_ip):
     operational_json = json.loads(operational_request.read().decode())
 
     #Pull the network topology and instantiate an empty list to place our list of netconf nodes
-    topology_list = topology["network-topology"]["topology"]
+    topology_list = operational_json["network-topology"]["topology"]
 
     operational_netconf = []
 
