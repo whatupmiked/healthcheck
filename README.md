@@ -1,6 +1,4 @@
 # healthcheck.py
-pip3 install jmespath  
-pip3 install requests  
 ./healthcheck.py  
 
 Verify the system state of a vanilla ODL installation on standard ports.  
