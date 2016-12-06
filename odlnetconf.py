@@ -13,7 +13,7 @@ def check(controller_ip):
     passman = urllib.request.HTTPPasswordMgrWithDefaultRealm()
     passman.add_password(None, operational_db, 'admin', 'admin')
     authhandler = urllib.request.HTTPBasicAuthHandler(passman)
-    opener = urllib.request.build_opener(opener)
+    opener = urllib.request.build_opener(authhandler)
     urllib.request.install_opener(opener)
 
     try:
@@ -24,12 +24,12 @@ def check(controller_ip):
         #Do not print error only that it failed.
         testTools.fail()
         return False
-'''
-    if(operational_request.status_code is not (200 or 201)):
-        testTools.fail()
-        print(" " * 2 , "Returned: ", operational_request.status_code)
-        return False
-'''
+
+#    if(operational_request.status_code is not (200 or 201)):
+#        testTools.fail()
+#        print(" " * 2 , "Returned: ", operational_request.status_code)
+#        return False
+
     #Queried ODL Inventory successfully
     testTools.Pass()
 
