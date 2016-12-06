@@ -1,6 +1,4 @@
-import requests
 import json
-import jmespath
 import testTools
 
 def check(controller_ip):
@@ -10,32 +8,46 @@ def check(controller_ip):
     #ODL query of Network Topology Operational Inventory
     operational_db = 'http://{0}:8181/restconf/operational/network-topology:network-topology/'.format(controller_ip)
 
+    #Build urllib object
+    passman = urllib.request.HTTPPasswordMgrWithDefaultRealm()
+    passman.add_password(None, operational_db, 'admin', 'admin')
+    authhandler = urllib.request.HTTPBasicAuthHandler(passman)
+    opener = urllib.request.build_opener(opener)
+    urllib.request.install_opener(opener)
+
     try:
         print(" " * 1, "GET: {0:{width}}".format(operational_db, width=94), end='')
         #Make an HTTP GET Request with default auth password admin:admin
-        operational_request = requests.get(operational_db,auth=('admin','admin'))
+        operational_request = urllib.request.urlopen(operational_db)
     except:
         #Do not print error only that it failed.
         testTools.fail()
         return False
-
+'''
     if(operational_request.status_code is not (200 or 201)):
         testTools.fail()
         print(" " * 2 , "Returned: ", operational_request.status_code)
         return False
-
+'''
     #Queried ODL Inventory successfully
     testTools.Pass()
 
     # Convert the request to a string and parse it into dictionary/lists using the json library
-    operational_json = json.loads(operational_request.text)
+    operational_json = json.loads(operational_request.read().decode())
 
-    # This expression takes all nodes and puts them in a list. The objects inside the list are dictionaries
-    operational_netconf = ((jmespath.search('"network-topology".topology[?"topology-id" == `topology-netconf`]',operational_json))[0]).get('node')
+    #Pull the network topology and instantiate an empty list to place our list of netconf nodes
+    topology_list = topology["network-topology"]["topology"]
+
+    operational_netconf = []
+
+    #Search for netconf nodes and populate operational_netconf with that list
+    for i in range(len(topology_list)):
+        if (topology_list[i]["topology-id"] == "topology-netconf"):
+            operational_netconf = topology_list[i]["node"]
 
     # Check if nodes exist
     print(" " * 1, "{0:{width}}".format("NETCONF Node exists", width=99), end='')
-    if not(type(operational_netconf) is list):
+    if len(operational_netconf) < 1:
         testTools.fail()
         return False
     else:
@@ -51,5 +63,5 @@ def check(controller_ip):
               operational_netconf[i].get('netconf-node-topology:connection-status'),
               operational_netconf[i].get('netconf-node-topology:host'),
               sep='\n        ')
-        ##### If states != connected print warnings
+        ##### If status != connected print warnings
         ##### Check available capabilities of each node like Netconf1.0, Netconf1.1, Candidate, Startup, Running
