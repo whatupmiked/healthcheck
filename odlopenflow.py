@@ -19,7 +19,7 @@ def check(controller_ip):
     try:
         print(" " * 1, "GET: {0:{width}}".format(operational_db_odl, width=94), end='')
         #Make a get call with default auth password admin:admin
-        operational_openflow_request = urllib.request.urlopen(operational_db)
+        operational_openflow_request = urllib.request.urlopen(operational_db_odl)
     except:
         #Do not print error only that it failed.
         testTools.fail()
