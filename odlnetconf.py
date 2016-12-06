@@ -19,6 +19,11 @@ def check(controller_ip):
         testTools.fail()
         return False
 
+    if(operational_request.status_code is not (200 or 201)):
+        testTools.fail()
+        print(" " * 2 , "Returned: ", operational_request.status_code)
+        return False
+
     #Queried ODL Inventory successfully
     testTools.Pass()
 
