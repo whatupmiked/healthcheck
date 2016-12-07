@@ -1,6 +1,5 @@
 #!/usr/bin/python3
 import odlsys
-import odlcluster
 import odlopenflow
 import odlnetconf
 
