@@ -33,7 +33,7 @@ def check():
     #   f. check if listening on 4189 - PCEP
     #   g. check if listening on 8443 - RESTCONF (HTTPS)
     testTools.name("TCP PORTS")
-    sysRun("netstat -na | egrep '(Address|8181|8443|9001|830|6653|6633|2550|179|4189)'")
+    sysRun("netstat -nl | egrep '(Address|8181|8443|9001|830|6653|6633|2550|179|4189)'")
 
     # 5. Check Nodejs version
     testTools.name("NODEJS")
