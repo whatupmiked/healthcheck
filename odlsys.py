@@ -32,7 +32,7 @@ def check():
     #   e. check if listening on 179 - BGP
     #   f. check if listening on 4189 - PCEP
     testTools.name("TCP PORTS")
-    sysRun("netstat -nl | egrep '(8181|9001|830|6653|6633|2550|179|4189)'")
+    sysRun("netstat -na | egrep '(State|8181|9001|830|6653|6633|2550|179|4189)'")
 
     # 5. Check Nodejs version
     testTools.name("NODEJS")
