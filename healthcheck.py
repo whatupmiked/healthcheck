@@ -23,6 +23,7 @@ odlsys.check()
 # 8. Check SSL/TLS config
 # 9. Check clustering config
 #odlcluster.check()
+#odlkaraf.check()
 
 # Health-check of Openflow nodes connected to controller.
 odlopenflow.check(controller_ip)

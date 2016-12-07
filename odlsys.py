@@ -18,9 +18,14 @@ def check():
     # 2. Check memory 'free -h' or /proc/meminfo
     testTools.name("MEMORY")
     #sysRun("free -h")
+
+    ### Open the /proc/meminfo file for parsing
     meminfo_path = "/proc/meminfo"
     input = open(meminfo_path, "r")
     meminfo = input.read()
+    input.close()
+
+    ### Parse the meminfo file
     meminfo_list = meminfo.split('\n')
     mem_total = 0
     swap_total = 0
