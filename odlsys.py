@@ -24,10 +24,15 @@ def check():
     sysRun("df -ahl --total | egrep '(total|Used)'")
 
     # 4. Check TCP ports 'netstat' (API, Nodejs, Openflow, NETCONF, BGP, PCEP, Clustering)
-    #   a. Check if listening on 8181
-    #   b. Check if listening on 9001
+    #   a. Check if listening on 8181 - RESTCONF
+    #   b. Check if listening on 9001 - NODEJS
+    #   c. Check if listening on 6633,6653 - OPENFLOW
+    #   d. Check if listening on 830, 1830 - NETCONF
+    #   e. Check if listening on 2550 - CLUSTERING
+    #   e. check if listening on 179 - BGP
+    #   f. check if listening on 4189 - PCEP
     testTools.name("TCP PORTS")
-    sysRun("netstat -nl | egrep '(8181|9001)'")
+    sysRun("netstat -nl | egrep '(8181|9001|830|6653|6633|2550|179|4189)'")
 
     # 5. Check Nodejs version
     testTools.name("NODEJS")
