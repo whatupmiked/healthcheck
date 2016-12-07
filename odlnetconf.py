@@ -64,5 +64,3 @@ def check(controller_ip):
               operational_netconf[i].get('netconf-node-topology:connection-status'),
               operational_netconf[i].get('netconf-node-topology:host'),
               sep='\n        ')
-        ##### If status != connected print warnings
-        ##### Check available capabilities of each node like Netconf1.0, Netconf1.1, Candidate, Startup, Running
