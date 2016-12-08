@@ -1,8 +1,9 @@
 import urllib.request
 import json
 import testTools
+import sys
 
-def check(controller_ip):
+def check(controller_ip,username,password):
 
     testTools.name("NETCONF")
 
@@ -11,7 +12,7 @@ def check(controller_ip):
 
     #Build urllib object
     passman = urllib.request.HTTPPasswordMgrWithDefaultRealm()
-    passman.add_password(None, operational_db, 'admin', 'admin')
+    passman.add_password(None, operational_db, username, password)
     authhandler = urllib.request.HTTPBasicAuthHandler(passman)
     opener = urllib.request.build_opener(authhandler)
     urllib.request.install_opener(opener)
@@ -23,6 +24,7 @@ def check(controller_ip):
     except:
         #Do not print error only that it failed.
         testTools.fail()
+        print(" " * 1, "Unexpected error:", sys.exc_info()[0], sys.exc_info()[1])
         return False
 
     if(operational_request.status is not (200 or 201)):
