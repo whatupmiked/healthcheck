@@ -11,6 +11,13 @@ def sysRun(command):
 
 ## Get some information about the system
 def check():
+
+    # 0. Uptime
+    testTools.name("TIME")
+    sysRun("date")
+    print()
+    sysRun("uptime")
+
     # 1. Check CPU count 'lscpu' or /proc/cpuinfo
     testTools.name("CPU")
     sysRun("lscpu | egrep '(CPU\(s\)|endor)' | grep -v NUMA")
@@ -41,7 +48,7 @@ def check():
 
     # 6. Check Java version, stdout is run in external java process so cannot capture.
     testTools.name("JAVA")
-    print("Running 'java -version'", end='\n\n')
+    print("Running java -version", end='\n\n')
     j = subprocess.Popen('java -version', shell=True, stdout=subprocess.PIPE)
     retvalJ = j.wait()
 

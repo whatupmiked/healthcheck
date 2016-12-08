@@ -19,7 +19,7 @@ color_end = '\x1b[0m'
 red = '1;31;40m'
 green = '1;32;40m'
 blue = '1;34;40m'
-yellow = '1;36;40m'
+yellow = '1;33;40m'
 purple = '1;35;40m'
 
 def fail():
@@ -29,8 +29,9 @@ def Pass():
     print("[" + color_start + green + "PASS" + color_end + "]", end='\n')
 
 def name(n):
+    print()
     print("=" * 40, end='\n')
-    print("{0}".format(n))
+    print(color_start + yellow + "{0}".format(n) + color_end)
     print("=" * 40, end='\n')
 
 def humanBytes(byte_value):
