@@ -3,7 +3,7 @@ import testTools
 import os
 
 def sysRun(command):
-    print("Running {0}".format(command), end='\n\n')
+    print("Running: {0}".format(command), end='\n\n')
     p = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE)
     for line in p.stdout.readlines():
         print(line.decode(), end='')
@@ -48,7 +48,7 @@ def check():
 
     # 6. Check Java version, stdout is run in external java process so cannot capture.
     testTools.name("JAVA")
-    print("Running java -version", end='\n\n')
+    print("Running: java -version", end='\n\n')
     j = subprocess.Popen('java -version', shell=True, stdout=subprocess.PIPE)
     retvalJ = j.wait()
 
