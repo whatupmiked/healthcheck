@@ -22,7 +22,7 @@ def healthcheck():
 
     input_args = parser.parse_args()
     username = input_args.username
-    password = input_args.username
+    password = input_args.password
 
     if( username is None ):
         username = 'admin'
