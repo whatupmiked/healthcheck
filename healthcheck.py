@@ -5,24 +5,44 @@ import odlnetconf
 import sys
 
 def healthcheck():
+    """
+    1. Check the state of mem, cpu, disk, network on the controller system.
+    2. Return the current openflow topology
+    3. Return the current netconf topology
+    """
     controller_ip = 'localhost'
-    username = 'admin'
-    password = 'admin'
+#    username = 'admin'
+#    password = 'admin'
 
-    # !!!!!!!!!!!! Need to pass user-name/password as args to auth script !!!!!!!!!!!!!!!!!!!
-    for i in range(len(sys.argv)):
-        if(sys.argv[i] == '-h'):
-            print(
-                "Usage: ./healthcheck",
-                "  -h help",
-                "  -u Authentication",
-                "    syntax: -u username:password (if no arguments are passed the default admin:admin is used)",
-                sep='\n')
-            return False
-        elif(sys.argv[i] == '-u'):
-            username = (sys.argv[i+1]).split(":")[0]
-            password = (sys.argv[i+1]).split(":")[1]
-            break
+    parser = argparse.ArgumentParser()
+
+    parser.add_argument('-u', action='store', dest='username', help='defaults to admin')
+    parser.add_argument('-p', action='store', dest='password', help='defaults to password')
+
+    input_args = parser.parse_args()
+    username = input_args.username
+    password = input_args.username
+
+    if( username is None ):
+        username = 'admin'
+
+    if( password is None ):
+        password = 'admin'
+
+
+#    for i in range(len(sys.argv)):
+#        if(sys.argv[i] == '-h'):
+#            print(
+#                "Usage: ./healthcheck",
+#                "  -h help",
+#                "  -u Authentication",
+#                "    syntax: -u username:password (if no arguments are passed the default admin:admin is used)",
+#                sep='\n')
+#            return False
+#        elif(sys.argv[i] == '-u'):
+#            username = (sys.argv[i+1]).split(":")[0]
+#            password = (sys.argv[i+1]).split(":")[1]
+#            break
 
     ## Get some information about the system
     # 1. Check CPU count
