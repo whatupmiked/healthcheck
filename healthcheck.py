@@ -12,8 +12,6 @@ def healthcheck():
     3. Return the current netconf topology
     """
     controller_ip = 'localhost'
-#    username = 'admin'
-#    password = 'admin'
 
     parser = argparse.ArgumentParser()
 
@@ -29,21 +27,6 @@ def healthcheck():
 
     if( password is None ):
         password = 'admin'
-
-
-#    for i in range(len(sys.argv)):
-#        if(sys.argv[i] == '-h'):
-#            print(
-#                "Usage: ./healthcheck",
-#                "  -h help",
-#                "  -u Authentication",
-#                "    syntax: -u username:password (if no arguments are passed the default admin:admin is used)",
-#                sep='\n')
-#            return False
-#        elif(sys.argv[i] == '-u'):
-#            username = (sys.argv[i+1]).split(":")[0]
-#            password = (sys.argv[i+1]).split(":")[1]
-#            break
 
     ## Get some information about the system
     # 1. Check CPU count
