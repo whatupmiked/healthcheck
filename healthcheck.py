@@ -1,7 +1,5 @@
 #!/usr/bin/python3
-import odlsys
-import odlopenflow
-import odlnetconf
+import odl.odlsys, odl.odlopenflow, odl.odlnetconf
 import sys
 import argparse
 
@@ -36,12 +34,12 @@ def healthcheck():
     # 5. Check Nodejs version
     # 6. Check Java version
     # 7. Check compatible OS
-    odlsys.check()
+    odl.odlsys.check()
 
     # Health-check of Openflow nodes connected to controller.
-    odlopenflow.check(controller_ip,username,password)
+    odl.odlopenflow.check(controller_ip,username,password)
 
     # Health-check of Netconf nodes connected to controller.
-    odlnetconf.check(controller_ip,username,password)
+    odl.odlnetconf.check(controller_ip,username,password)
 
 healthcheck()
