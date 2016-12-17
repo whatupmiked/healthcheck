@@ -1,5 +1,7 @@
 #!/usr/bin/python3
-import odl.odlsys, odl.odlopenflow, odl.odlnetconf
+import odl.odlsys
+import odl.odlopenflow
+import odl.odlnetconf
 import sys
 import argparse
 
