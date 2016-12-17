@@ -5,6 +5,14 @@ import odl.odlnetconf
 import sys
 import argparse
 
+__author__= "Michael Doyle"
+__copyright__= ""
+__license__= "MIT"
+__version__= "0.5"
+__maintainer__= "Michael Doyle"
+__email__= "whatupmiked@gmail.com"
+__status__= "beta"
+
 def healthcheck():
     """
     1. Check the state of mem, cpu, disk, network on the controller system.
