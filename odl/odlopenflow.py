@@ -38,10 +38,15 @@ def check(controller_ip,username,password):
     # Convert the request to a string and parse it into dictionary/lists using the json library
     operational_openflow_json = json.loads(operational_openflow_request.read().decode())
 
-    operational_openflow = operational_openflow_json["nodes"]["node"]
-
     # Check if nodes exist
     print(" " * 1, "{0:{width}}".format("Openflow Node exists", width=99), end='')
+
+    if(len(operational_openflow_json["nodes"] > 0):
+        operational_openflow = operational_openflow_json["nodes"]["node"]
+    else:
+        testTools.fail()
+        return False
+
     if len(operational_openflow) < 1:
         testTools.fail()
         return False
