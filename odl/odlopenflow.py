@@ -41,7 +41,7 @@ def check(controller_ip,username,password):
     # Check if nodes exist
     print(" " * 1, "{0:{width}}".format("Openflow Node exists", width=99), end='')
 
-    if(len(operational_openflow_json["nodes"] > 0):
+    if(len(operational_openflow_json["nodes"]) > 0):
         operational_openflow = operational_openflow_json["nodes"]["node"]
     else:
         testTools.fail()
