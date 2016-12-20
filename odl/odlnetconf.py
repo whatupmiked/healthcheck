@@ -53,7 +53,7 @@ def check(controller_ip,username,password):
                 #Boron Failure
                 testTools.fail()
                 return False
-            elif(len(topologylist[i]["node"]) < 1):
+            elif(len(topology_list[i]["node"]) < 1):
                 #Beryllium Failure
                 testTools.fail()
                 return False
