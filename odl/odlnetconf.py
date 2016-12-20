@@ -46,15 +46,27 @@ def check(controller_ip,username,password):
     #Search for netconf nodes and populate operational_netconf with that list
     for i in range(len(topology_list)):
         if (topology_list[i]["topology-id"] == "topology-netconf"):
-            operational_netconf = topology_list[i]["node"]
+            # Check if nodes exit
+            print(" " * 1, "{0:{width}}".format("NETCONF Node exists", width=99), end='')
+
+            if(len(topology_list[i]) < 1):
+                #Boron Failure
+                testTools.fail()
+                return False
+            elif(len(topologylist[i]["node"]) < 1):
+                #Beryllium Failure
+                testTools.fail()
+                return False
+            else:
+                operational_netconf = topology_list[i]["node"]
+                testTools.Pass()
 
     # Check if nodes exist
-    print(" " * 1, "{0:{width}}".format("NETCONF Node exists", width=99), end='')
-    if len(operational_netconf) < 1:
-        testTools.fail()
-        return False
-    else:
-        testTools.Pass()
+#    if len(operational_netconf) < 1:
+#        testTools.fail()
+#        return False
+#    else:
+#        testTools.Pass()
 
     #Iterate over the Netconf nodes list and print the name and status
     for i in range(len(operational_netconf)):
