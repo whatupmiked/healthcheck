@@ -49,7 +49,7 @@ def check(controller_ip,username,password):
             # Check if nodes exit
             print(" " * 1, "{0:{width}}".format("NETCONF Node exists", width=99), end='')
 
-            if(len(topology_list[i]) < 1):
+            if(len(topology_list[i]) < 2):
                 #Boron Failure
                 testTools.fail()
                 return False
