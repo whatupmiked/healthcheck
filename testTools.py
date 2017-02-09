@@ -1,4 +1,7 @@
 #!/usr/bin/python3
+import os
+import subprocess
+
 def print_format_table():
     """
     prints table of formatted text format options
@@ -41,4 +44,10 @@ def humanBytes(byte_value):
         byte_value /= 1024.0
     return "{0:.1f} {1}B".format(byte_value, "Y")
 
-#sysRun
+def sysRun(command):
+    print("Running: {0}".format(command), end='\n\n')
+    p = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE)
+    for line in p.stdout.readlines():
+        print(line.decode(), end='')
+    retval = p.wait()
+

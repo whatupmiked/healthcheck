@@ -25,13 +25,14 @@ def healthcheck():
 
     parser.add_argument('-u', action='store', dest='username', help='defaults to admin')
     parser.add_argument('-p', action='store', dest='password', help='defaults to password')
-    parser.add_argument('-b', action='store', dest='brocade', help='capture brocade specific outputs')
+    parser.add_argument('-b', action='store_true', dest='brocade',default=False, help='capture brocade specific outputs')
     parser.add_argument('-l', action='store', dest='karaf_path', help='path to karaf.log')
 
     input_args = parser.parse_args()
     username = input_args.username
     password = input_args.password
     karaf_path = input_args.karaf_path
+    brocade = input_args.brocade
 
     if( username is None ):
         username = 'admin'
