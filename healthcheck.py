@@ -31,14 +31,18 @@ def healthcheck():
     input_args = parser.parse_args()
     username = input_args.username
     password = input_args.password
-    karaf_path = input_args.karaf_path
     brocade = input_args.brocade
 
-    if( username is None ):
+    if username is None :
         username = 'admin'
 
-    if( password is None ):
+    if password is None :
         password = 'admin'
+
+    if brocade:
+        karaf_path = '/opt/brocade/bsc/controller/data/log/karaf.log'
+    else:
+        karaf_path = input_args.karaf_path
 
     ## Get some information about the system
     # 1. Check CPU count
