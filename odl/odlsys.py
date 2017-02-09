@@ -2,7 +2,7 @@ import subprocess
 import testTools
 
 ## Get some information about the system
-def check():
+def check(karaf_path):
 
     # 0. Uptime
     testTools.name("TIME")
@@ -47,3 +47,9 @@ def check():
     # 7. Check Compatible OS
     testTools.name("OPERATING SYSTEM")
     testTools.sysRun("cat /etc/*release | grep NAME")
+
+    # 8. Check karaf.log for errors
+    if karaf_path is not None:
+        testTools.name("KARAF.LOG")
+        testTools.sysRun("grep ERROR " + karaf_path)
+
