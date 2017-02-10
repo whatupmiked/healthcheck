@@ -51,5 +51,5 @@ def check(karaf_path):
     # 8. Check karaf.log for errors
     if karaf_path is not None:
         testTools.name("KARAF.LOG")
-        testTools.sysRun("grep ERROR " + karaf_path)
+        testTools.sysRun("grep ERROR " + karaf_path + " | cut -d \| -f 1,2,6 | tail")
 
