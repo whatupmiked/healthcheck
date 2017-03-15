@@ -6,6 +6,7 @@ def check():
     akka_path = '/opt/brocade/configuration/customer/bsc/configuration/initial/akka.conf'
 
     testTools.name("CLUSTER CONFIG")
+    print("Path: /opt/brocade/configuration/customer/bsc/configuration/initial/")
     print(" " * 1, "{0:{width}}".format("modules-shards.conf exists", width=99), end='')
     if os.access(modules_shards_path, os.F_OK):
         #print modules_shards config file
