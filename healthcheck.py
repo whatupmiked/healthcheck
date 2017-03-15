@@ -43,7 +43,7 @@ def healthcheck():
     if password is None :
         password = 'admin'
 
-    if brocade:
+    if os.access('/opt/brocade/', os.F_OK) or brocade:
         karaf_path = '/opt/brocade/bsc/controller/data/log/karaf.log'
     else:
         karaf_path = input_args.karaf_path
@@ -58,16 +58,16 @@ def healthcheck():
     # 7. Check compatible OS
     odl.odlsys.check(karaf_path,controller_ip,username,password)
 
-    # Health-check of Openflow nodes connected to controller.
-    odl.odlopenflow.check(controller_ip,username,password)
-
-    # Health-check of Netconf nodes connected to controller.
-    odl.odlnetconf.check(controller_ip,username,password)
-
     # Check for vendor install
     if os.access('/opt/brocade/', os.F_OK):
         brcd.brcdcluster.check()
         brcd.brcdhttps.check()
         brcd.brcdjava.check()
+
+    # Health-check of Openflow nodes connected to controller.
+    odl.odlopenflow.check(controller_ip,username,password)
+
+    # Health-check of Netconf nodes connected to controller.
+    odl.odlnetconf.check(controller_ip,username,password)
 
 healthcheck()
