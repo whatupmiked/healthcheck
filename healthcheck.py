@@ -56,7 +56,7 @@ def healthcheck():
     # 5. Check Nodejs version
     # 6. Check Java version
     # 7. Check compatible OS
-    odl.odlsys.check(karaf_path)
+    odl.odlsys.check(karaf_path,controller_ip,username,password)
 
     # Health-check of Openflow nodes connected to controller.
     odl.odlopenflow.check(controller_ip,username,password)

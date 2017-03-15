@@ -1,6 +1,8 @@
 #!/usr/bin/python3
 import os
 import subprocess
+import urllib.request
+import sys
 
 def print_format_table():
     """
@@ -50,4 +52,23 @@ def sysRun(command):
     for line in p.stdout.readlines():
         print(line.decode(), end='')
     retval = p.wait()
+
+def tryURL(test_url,username,password):
+    passman = urllib.request.HTTPPasswordMgrWithDefaultRealm()
+    passman.add_password(None, test_url, username, password)
+    authhandler = urllib.request.HTTPBasicAuthHandler(passman)
+    opener = urllib.request.build_opener(authhandler)
+    urllib.request.install_opener(opener)
+
+    try:
+        print(" " * 1, "GET: {0:{width}}".format(test_url, width=94), end='')
+        #Make a GET request
+        urllib.request.urlopen(test_url)
+        Pass()
+    except:
+        #Do not print error only that it failed.
+        fail()
+        print(" " * 1, "Unexpected error:", sys.exc_info()[0], sys.exc_info()[1])
+        return False
+
 

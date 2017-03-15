@@ -2,7 +2,7 @@ import subprocess
 import testTools
 
 ## Get some information about the system
-def check(karaf_path):
+def check(karaf_path,controller_ip,username,password):
 
     # 0. Uptime
     testTools.name("TIME")
@@ -48,8 +48,18 @@ def check(karaf_path):
     testTools.name("OPERATING SYSTEM")
     testTools.sysRun("cat /etc/*release | grep NAME")
 
-    # 8. Check karaf.log for errors
+    # 8. Check standard RESTCONF services
+    # http://{controller-ip}:8181/apidoc/explorer/index.html
+    # http://{controller-ip}:8181/restconf/modules
+    # http://{controller-ip}:9001
+    testTools.name("STANDARD SERVICES")
+    testTools.tryURL("http://{0}:8181/apidoc/explorer/index.html".format(controller_ip),username,password)
+    testTools.tryURL("http://{0}:8181/restconf/modules".format(controller_ip),username,password)
+    testTools.tryURL("http://{0}:9001".format(controller_ip),username,password)
+
+    # 9. Check karaf.log for errors
     if karaf_path is not None:
         testTools.name("KARAF.LOG")
         testTools.sysRun("grep ERROR " + karaf_path + " | cut -d \| -f 1,2,6 | tail")
+
 
