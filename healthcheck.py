@@ -4,6 +4,7 @@ import odl.odlopenflow
 import odl.odlnetconf
 import brcd.brcdcluster
 import brcd.brcdhttps
+import brcd.brcdjava
 import sys
 import os
 import argparse
@@ -67,5 +68,6 @@ def healthcheck():
     if os.access('/opt/brocade/', os.F_OK):
         brcd.brcdcluster.check()
         brcd.brcdhttps.check()
+        brcd.brcdjava.check()
 
 healthcheck()
