@@ -3,6 +3,7 @@ import odl.odlsys
 import odl.odlopenflow
 import odl.odlnetconf
 import brcd.brcdcluster
+import brcd.brcdhttps
 import sys
 import os
 import argparse
@@ -65,5 +66,6 @@ def healthcheck():
     # Check for vendor install
     if os.access('/opt/brocade/', os.F_OK):
         brcd.brcdcluster.check()
+        brcd.brcdhttps.check()
 
 healthcheck()
