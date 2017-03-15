@@ -2,7 +2,9 @@
 import odl.odlsys
 import odl.odlopenflow
 import odl.odlnetconf
+import brcd.brcdcluster
 import sys
+import os
 import argparse
 
 __author__= "Michael Doyle"
@@ -59,5 +61,9 @@ def healthcheck():
 
     # Health-check of Netconf nodes connected to controller.
     odl.odlnetconf.check(controller_ip,username,password)
+
+    # Check for vendor install
+    if os.access('/opt/brocade/', os.F_OK):
+        brcd.brcdcluster.check()
 
 healthcheck()
