@@ -55,6 +55,7 @@ def check(karaf_path,controller_ip,username,password):
     testTools.name("STANDARD SERVICES")
     testTools.tryURL("http://{0}:8181/apidoc/explorer/index.html".format(controller_ip),username,password)
     testTools.tryURL("http://{0}:8181/restconf/modules".format(controller_ip),username,password)
+    # For DLUX ui the default is http://{0}:8181/index.html 9001 is for Brocade UI
     testTools.tryURL("http://{0}:9001".format(controller_ip),username,password)
 
     # 9. Check karaf.log for errors
