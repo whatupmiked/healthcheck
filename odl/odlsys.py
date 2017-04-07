@@ -1,5 +1,6 @@
 import subprocess
 import testTools
+import platform
 
 ## Get some information about the system
 def check(karaf_path,controller_ip,username,password):
@@ -32,7 +33,12 @@ def check(karaf_path,controller_ip,username,password):
     #   f. check if listening on 4189 - PCEP
     #   g. check if listening on 8443 - RESTCONF (HTTPS)
     testTools.name("TCP PORTS")
-    testTools.sysRun("netstat -nl | egrep '(Address|8181|8443|9001|830|6653|6633|2550|179|4189)'")
+    distro = (platform.linux_distribution())[0].casefold()
+    if ('centos' in distro) or ('rhel' in distro) or ('redhat' in distro):
+        testTools.sysRun("ss -nl | egrep '(Address|8181|8443|9001|830|6653|6633|2550|179|4189)'")
+    else:
+        testTools.sysRun("netstat -nl | egrep '(Address|8181|8443|9001|830|6653|6633|2550|179|4189)'")
+    #if [[ -n $(cat /etc/*release | grep rhel) ]]; then ss -nl | '(Address|8181|8443|9001|830|6653|6633|2550|179|4189)'; fi 
 
     # 5. Check Nodejs version
     testTools.name("NODEJS")
