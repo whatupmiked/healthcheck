@@ -28,10 +28,10 @@ def healthcheck():
 
     parser = argparse.ArgumentParser()
 
-    parser.add_argument('-u', action='store', dest='username', help='defaults to admin')
-    parser.add_argument('-p', action='store', dest='password', help='defaults to password')
-    parser.add_argument('-b', action='store_true', dest='brocade',default=False, help='capture brocade specific outputs')
-    parser.add_argument('-l', action='store', dest='karaf_path', help='path to karaf.log')
+    parser.add_argument('--user', action='store', dest='username', help='defaults to admin')
+    parser.add_argument('--password', action='store', dest='password', help='defaults to password')
+    parser.add_argument('--brocade', action='store_true', dest='brocade',default=False, help='capture brocade specific outputs')
+    parser.add_argument('--log-location', action='store', dest='karaf_path', help='path to karaf.log')
 
     input_args = parser.parse_args()
     username = input_args.username
@@ -49,27 +49,29 @@ def healthcheck():
     else:
         karaf_path = input_args.karaf_path
 
-    ## Get some information about the system
-    # 1. Check CPU count
-    # 2. Check Memory
-    # 3. Check Disk
-    # 4. Check TCP ports (API:8181, Nodejs:9001, Openflow:6633, NETCONF:830, BGP, PCEP, Cluster:2550, SSL/TLS)
-    # 5. Check Nodejs version
-    # 6. Check Java version
-    # 7. Check compatible OS
-    odl.odlsys.check(karaf_path,controller_ip,username,password)
-
     # Check for vendor install
-    if os.access('/opt/brocade/', os.F_OK):
+    #if os.access('/opt/brocade/', os.F_OK):
+    if input_args.brocade:
         brcd.brcdctrl.check()
         brcd.brcdcluster.check()
         brcd.brcdhttps.check()
         brcd.brcdjava.check()
+    else:
+        ## Get some information about the system
+        # 1. Check CPU count
+        # 2. Check Memory
+        # 3. Check Disk
+        # 4. Check TCP ports (API:8181, Nodejs:9001, Openflow:6633, NETCONF:830, BGP, PCEP, Cluster:2550, SSL/TLS)
+        # 5. Check Nodejs version
+        # 6. Check Java version
+        # 7. Check compatible OS
+        odl.odlsys.check(karaf_path,controller_ip,username,password)
 
-    # Health-check of Openflow nodes connected to controller.
-    odl.odlopenflow.check(controller_ip,username,password)
 
-    # Health-check of Netconf nodes connected to controller.
-    odl.odlnetconf.check(controller_ip,username,password)
+        # Health-check of Openflow nodes connected to controller.
+        odl.odlopenflow.check(controller_ip,username,password)
+
+        # Health-check of Netconf nodes connected to controller.
+        odl.odlnetconf.check(controller_ip,username,password)
 
 healthcheck()
