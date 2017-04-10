@@ -10,7 +10,7 @@ def api_list(**args):
     """curl -u admin:admin http://<controller_ip>:8181/apidoc/apis/"""
     api_uri = "http://{0}:8181/{1}".format(args['controller_ip'],apis)
 
-    print("Printing API list from {0}".format(api_uri), end='\n\n')
+    #print("Printing API list from {0}".format(api_uri), end='\n\n')
 
     ra = requests.get(
             api_uri,
