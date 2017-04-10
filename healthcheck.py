@@ -2,6 +2,7 @@
 import odl.odlsys
 import odl.odlopenflow
 import odl.odlnetconf
+import odl.odlapis
 import brcd.brcdcluster
 import brcd.brcdhttps
 import brcd.brcdjava
@@ -24,7 +25,6 @@ def healthcheck():
     2. Return the current openflow topology
     3. Return the current netconf topology
     """
-    controller_ip = 'localhost'
 
     parser = argparse.ArgumentParser()
 
@@ -32,26 +32,26 @@ def healthcheck():
     parser.add_argument('--password', action='store', dest='password', help='defaults to password')
     parser.add_argument('--brocade', action='store_true', dest='brocade',default=False, help='capture brocade specific outputs')
     parser.add_argument('--log-location', action='store', dest='karaf_path', help='path to karaf.log')
+    parser.add_argument('--apis', action='store_true', dest='get_apis', help='Option for gathering ODL api list')
+    parser.add_argument('--ip', action='store', dest='controller_ip', default='localhost', help='define the controller IP to be used')
 
     input_args = parser.parse_args()
     username = input_args.username
     password = input_args.password
     brocade = input_args.brocade
 
-    if username is None :
-        username = 'admin'
-
-    if password is None :
-        password = 'admin'
 
     if os.access('/opt/brocade/', os.F_OK) or brocade:
         karaf_path = '/opt/brocade/bsc/controller/data/log/karaf.log'
     else:
         karaf_path = input_args.karaf_path
 
-    # Check for vendor install
+    # Options execution parser
+    if input_args.get_apis:
+        odl.odlapi.api_list(**input_args.__dict__)
     #if os.access('/opt/brocade/', os.F_OK):
-    if input_args.brocade:
+    elif input_args.brocade:
+        # Get the state of different configuration parameters for Brocade ODL installation
         brcd.brcdctrl.check()
         brcd.brcdcluster.check()
         brcd.brcdhttps.check()
@@ -65,13 +65,12 @@ def healthcheck():
         # 5. Check Nodejs version
         # 6. Check Java version
         # 7. Check compatible OS
-        odl.odlsys.check(karaf_path,controller_ip,username,password)
-
+        odl.odlsys.check(karaf_path,input_args.controller_ip,username,password)
 
         # Health-check of Openflow nodes connected to controller.
-        odl.odlopenflow.check(controller_ip,username,password)
+        odl.odlopenflow.check(input_args.controller_ip,username,password)
 
         # Health-check of Netconf nodes connected to controller.
-        odl.odlnetconf.check(controller_ip,username,password)
+        odl.odlnetconf.check(input_args.controller_ip,username,password)
 
 healthcheck()
