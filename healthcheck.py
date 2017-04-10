@@ -2,7 +2,7 @@
 import odl.odlsys
 import odl.odlopenflow
 import odl.odlnetconf
-import odl.odlapis
+import odl.odlapi
 import brcd.brcdcluster
 import brcd.brcdhttps
 import brcd.brcdjava
@@ -28,8 +28,8 @@ def healthcheck():
 
     parser = argparse.ArgumentParser()
 
-    parser.add_argument('--user', action='store', dest='username', help='defaults to admin')
-    parser.add_argument('--password', action='store', dest='password', help='defaults to password')
+    parser.add_argument('--user', action='store', dest='username', default='admin', help='defaults to admin')
+    parser.add_argument('--password', action='store', dest='password', default='admin', help='defaults to password')
     parser.add_argument('--brocade', action='store_true', dest='brocade',default=False, help='capture brocade specific outputs')
     parser.add_argument('--log-location', action='store', dest='karaf_path', help='path to karaf.log')
     parser.add_argument('--apis', action='store_true', dest='get_apis', help='Option for gathering ODL api list')

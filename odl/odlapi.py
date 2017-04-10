@@ -7,7 +7,10 @@ apis = "apidoc/apis/"
 
 def api_list(**args):
     """Given controller access details, returns a list of api paths"""
+    """curl -u admin:admin http://<controller_ip>:8181/apidoc/apis/"""
     api_uri = "http://{0}:8181/{1}".format(args['controller_ip'],apis)
+
+    print("Printing API list from {0}".format(api_uri), end='\n\n')
 
     ra = requests.get(
             api_uri,
@@ -19,5 +22,5 @@ def api_list(**args):
     for i in range(len(api_json['apis'])):
         api_list.append(api_json['apis'][i]['path'])
 
-    return api_list
+    print( *api_list, sep='\n' )
 
