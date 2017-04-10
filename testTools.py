@@ -39,13 +39,6 @@ def name(n):
     print(color_start + yellow + "{0}".format(n) + color_end)
     print("=" * 40, end='\n')
 
-def humanBytes(byte_value):
-    for unit in ['K','M', 'G', 'T', 'P', 'E', 'Z']:
-        if abs(byte_value) < 1024.0:
-            return "{0:.1f} {1}B".format(byte_value, unit)
-        byte_value /= 1024.0
-    return "{0:.1f} {1}B".format(byte_value, "Y")
-
 def sysRun(command):
     print("Running: {0}".format(command), end='\n\n')
     p = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE)
