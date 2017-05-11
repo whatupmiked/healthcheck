@@ -23,6 +23,8 @@ def check():
     else:
         testTools.fail()
 
+# Documentation on HOCON https://github.com/typesafehub/config/blob/master/HOCON.md
+        
 #    cluster_dir = "/opt/brocade/configuration/customer/bsc/configuration/initial/"
 #    akka = '0.akka.conf'
 #    modules = '0.module-shards.conf'
