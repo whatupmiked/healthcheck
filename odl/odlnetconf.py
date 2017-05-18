@@ -1,10 +1,16 @@
+"""
+Tools for checking the state of ODL netconf device
+and module
+"""
 import urllib.request
 import json
-import testTools
 import sys
+import testTools
 
-def check(controller_ip,username,password):
-
+def check(controller_ip, username, password):
+    """
+    Verify the state of connected devices
+    """
     testTools.name("NETCONF")
 
     #ODL query of Network Topology Operational Inventory
@@ -27,9 +33,9 @@ def check(controller_ip,username,password):
         print(" " * 1, "Unexpected error:", sys.exc_info()[0], sys.exc_info()[1])
         return False
 
-    if(operational_request.status is not (200 or 201)):
+    if operational_request.status is not (200 or 201):
         testTools.fail()
-        print(" " * 2 , "Returned: ", operational_request.status)
+        print(" " * 2, "Returned: ", operational_request.status)
         return False
 
     #Queried ODL Inventory successfully
@@ -45,28 +51,21 @@ def check(controller_ip,username,password):
 
     #Search for netconf nodes and populate operational_netconf with that list
     for i in range(len(topology_list)):
-        if (topology_list[i]["topology-id"] == "topology-netconf"):
+        if topology_list[i]["topology-id"] == "topology-netconf":
             # Check if nodes exit
             print(" " * 1, "{0:{width}}".format("NETCONF Node exists", width=99), end='')
 
-            if(len(topology_list[i]) < 2):
+            if len(topology_list[i]) < 2:
                 #Boron Failure
                 testTools.fail()
                 return False
-            elif(len(topology_list[i]["node"]) < 1):
+            elif len(topology_list[i]["node"]) < 1:
                 #Beryllium Failure
                 testTools.fail()
                 return False
             else:
                 operational_netconf = topology_list[i]["node"]
                 testTools.Pass()
-
-    # Check if nodes exist
-#    if len(operational_netconf) < 1:
-#        testTools.fail()
-#        return False
-#    else:
-#        testTools.Pass()
 
     #Iterate over the Netconf nodes list and print the name and status
     for i in range(len(operational_netconf)):
