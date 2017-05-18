@@ -1,10 +1,15 @@
+"""
+Tools for verifying the system state of an ODL application
+"""
 import subprocess
-import testTools
 import platform
+import testTools
 
 ## Get some information about the system
-def check(karaf_path,controller_ip,username,password):
-
+def check(karaf_path, controller_ip, username, password):
+    """
+    Verify system parameters for the installation
+    """
     # 0. Uptime
     testTools.name("TIME")
     testTools.sysRun("date")
@@ -38,7 +43,6 @@ def check(karaf_path,controller_ip,username,password):
         testTools.sysRun("ss -nl | egrep '(Address|8181|8443|9001|830|6653|6633|2550|179|4189)'")
     else:
         testTools.sysRun("netstat -nl | egrep '(Address|8181|8443|9001|830|6653|6633|2550|179|4189)'")
-    #if [[ -n $(cat /etc/*release | grep rhel) ]]; then ss -nl | '(Address|8181|8443|9001|830|6653|6633|2550|179|4189)'; fi 
 
     # 5. Check Nodejs version
     testTools.name("NODEJS")
@@ -47,8 +51,8 @@ def check(karaf_path,controller_ip,username,password):
     # 6. Check Java version, stdout is run in external java process so cannot capture.
     testTools.name("JAVA")
     print("Running: java -version", end='\n\n')
-    j = subprocess.Popen('java -version', shell=True, stdout=subprocess.PIPE)
-    retvalJ = j.wait()
+    java = subprocess.Popen('java -version', shell=True, stdout=subprocess.PIPE)
+    retval_j = java.wait()
 
     # 7. Check Compatible OS
     testTools.name("OPERATING SYSTEM")
@@ -59,14 +63,14 @@ def check(karaf_path,controller_ip,username,password):
     # http://{controller-ip}:8181/restconf/modules
     # http://{controller-ip}:9001
     testTools.name("STANDARD SERVICES")
-    testTools.tryURL("http://{0}:8181/apidoc/explorer/index.html".format(controller_ip),username,password)
-    testTools.tryURL("http://{0}:8181/restconf/modules".format(controller_ip),username,password)
+    testTools.tryURL("http://{0}:8181/apidoc/explorer/index.html".format(controller_ip),
+                     username, password)
+    testTools.tryURL("http://{0}:8181/restconf/modules".format(controller_ip),
+                     username, password)
     # For DLUX ui the default is http://{0}:8181/index.html 9001 is for Brocade UI
-    testTools.tryURL("http://{0}:9001".format(controller_ip),username,password)
+    testTools.tryURL("http://{0}:9001".format(controller_ip), username, password)
 
     # 9. Check karaf.log for errors
     if karaf_path is not None:
         testTools.name("KARAF.LOG")
         testTools.sysRun("grep ERROR " + karaf_path + " | cut -d \| -f 1,2,6 | tail")
-
-
