@@ -23,6 +23,9 @@ def check():
     else:
         testTools.fail()
 
+# Documentation on HOCON https://github.com/typesafehub/config/blob/master/HOCON.md
+# Documentation for clustering https://lists.opendaylight.org/pipermail/controller-dev/2016-July/012388.html
+        
 #    cluster_dir = "/opt/brocade/configuration/customer/bsc/configuration/initial/"
 #    akka = '0.akka.conf'
 #    modules = '0.module-shards.conf'
