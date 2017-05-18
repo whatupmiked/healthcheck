@@ -1,10 +1,15 @@
+"""
+Tools for verying the state of the openflow plugin
+"""
 import urllib.request
 import json
-import testTools
 import sys
+import testTools
 
-def check(controller_ip,username,password):
-
+def check(controller_ip, username, password):
+    """
+    Verify the state of connected openflow devices
+    """
     testTools.name("OPENFLOW")
 
     #ODL query of opendaylight-inventory:nodes
@@ -27,7 +32,7 @@ def check(controller_ip,username,password):
         print(" " * 1, "Unexpected error:", sys.exc_info()[0], sys.exc_info()[1])
         return False
 
-    if(operational_openflow_request.status is not (200 or 201)):
+    if operational_openflow_request.status is not (200 or 201):
         testTools.fail()
         print(" " * 2, "Returned: ", operational_openflow_request.status)
         return False
@@ -41,7 +46,7 @@ def check(controller_ip,username,password):
     # Check if nodes exist
     print(" " * 1, "{0:{width}}".format("Openflow Node exists", width=99), end='')
 
-    if(len(operational_openflow_json["nodes"]) > 0):
+    if len(operational_openflow_json["nodes"]) > 0:
         operational_openflow = operational_openflow_json["nodes"]["node"]
     else:
         testTools.fail()
@@ -52,16 +57,17 @@ def check(controller_ip,username,password):
         return False
     else:
         #Check if Beryllium ODL opendaylight-inventory
-        if ( "controller-config" in operational_openflow[0].get('id') ):
+        if "controller-config" in operational_openflow[0].get('id'):
             testTools.fail()
         else:
             testTools.Pass()
 
     # Iterate over the Openflow list and print the first item in the dictionary
     for i in range(len(operational_openflow)):
-        # Skip loop if this is Beryllium 
-        if ( "controller-config" in operational_openflow[i].get('id') ):
-            print(" " * 4, "{0:{width}}".format("BERYLLIUM TOPOLOGY (controller-config)", width= 96) , end='')
+        # Skip loop if this is Beryllium
+        if "controller-config" in operational_openflow[i].get('id'):
+            print(" " * 4, "{0:{width}}".format("BERYLLIUM TOPOLOGY (controller-config)",
+                                                width=96), end='')
             testTools.fail()
             break
 
@@ -78,7 +84,6 @@ def check(controller_ip,username,password):
               sep='\n        ')
         #Print each discovered Openflow interface for the switch
         interface_list = operational_openflow[i].get('node-connector')
-        if (type(interface_list) is list):
-            for n in range(len(interface_list)):
-                print((" " * 10) + interface_list[n].get('id') + " " + interface_list[n].get('flow-node-inventory:name'))
-
+        if type(interface_list) is list:
+            for interface in range(len(interface_list)):
+                print((" " * 10) + interface_list[interface].get('id') + " " + interface_list[interface].get('flow-node-inventory:name'))
