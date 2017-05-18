@@ -1,5 +1,7 @@
 #!/usr/bin/python3
-import os
+"""
+Simple tools for running test cases
+"""
 import subprocess
 import urllib.request
 import sys
@@ -9,44 +11,59 @@ def print_format_table():
     prints table of formatted text format options
     """
     for style in range(8):
-        for fg in range(30,38):
-            s1 = ''
-            for bg in range(40,48):
-                format = ';'.join([str(style), str(fg), str(bg)])
-                s1 += '\x1b[%sm %s \x1b[0m' % (format, format)
-            print(s1)
+        for foreg in range(30, 38):
+            str1 = ''
+            for backg in range(40, 48):
+                format = ';'.join([str(style), str(foreg), str(backg)])
+                str1 += '\x1b[%sm %s \x1b[0m' % (format, format)
+            print(str1)
         print('\n')
 
 #print_format_table()
 
-color_start = '\x1b['
-color_end = '\x1b[0m'
-red = '1;31;40m'
-green = '1;32;40m'
-blue = '1;34;40m'
-yellow = '1;33;40m'
-purple = '1;35;40m'
+COLOR_START = '\x1b['
+COLOR_END = '\x1b[0m'
+RED = '1;31;40m'
+GREEN = '1;32;40m'
+BLUE = '1;34;40m'
+YELLOW = '1;33;40m'
+PURPLE = '1;35;40m'
 
 def fail():
-    print("[" + color_start + red + "FAIL" + color_end + "]", end='\n')
+    """
+    Print colored FAIL message.
+    """
+    print("[" + COLOR_START + RED + "FAIL" + COLOR_END + "]", end='\n')
 
 def Pass():
-    print("[" + color_start + green + "PASS" + color_end + "]", end='\n')
+    """
+    Print colored PASS message.
+    """
+    print("[" + COLOR_START + GREEN + "PASS" + COLOR_END + "]", end='\n')
 
-def name(n):
+def name(test_name):
+    """
+    Print colored test name
+    """
     print()
     print("=" * 40, end='\n')
-    print(color_start + yellow + "{0}".format(n) + color_end)
+    print(COLOR_START + YELLOW + "{0}".format(test_name) + COLOR_END)
     print("=" * 40, end='\n')
 
 def sysRun(command):
+    """
+    Run a system command.
+    """
     print("Running: {0}".format(command), end='\n\n')
-    p = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE)
-    for line in p.stdout.readlines():
+    proc = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE)
+    for line in proc.stdout.readlines():
         print(line.decode(), end='')
-    retval = p.wait()
+    retval = proc.wait()
 
-def tryURL(test_url,username,password):
+def tryURL(test_url, username, password):
+    """
+    Handler for HTTP Get requests
+    """
     passman = urllib.request.HTTPPasswordMgrWithDefaultRealm()
     passman.add_password(None, test_url, username, password)
     authhandler = urllib.request.HTTPBasicAuthHandler(passman)
@@ -63,5 +80,3 @@ def tryURL(test_url,username,password):
         fail()
         print(" " * 1, "Unexpected error:", sys.exc_info()[0], sys.exc_info()[1])
         return False
-
-
