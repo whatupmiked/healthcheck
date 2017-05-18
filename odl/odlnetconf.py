@@ -5,13 +5,13 @@ and module
 import urllib.request
 import json
 import sys
-import testTools
+import test_tools
 
 def check(controller_ip, username, password):
     """
     Verify the state of connected devices
     """
-    testTools.name("NETCONF")
+    test_tools.name("NETCONF")
 
     #ODL query of Network Topology Operational Inventory
     operational_db = 'http://{0}:8181/restconf/operational/network-topology:network-topology/'.format(controller_ip)
@@ -29,17 +29,17 @@ def check(controller_ip, username, password):
         operational_request = urllib.request.urlopen(operational_db)
     except:
         #Do not print error only that it failed.
-        testTools.fail()
+        test_tools.fail()
         print(" " * 1, "Unexpected error:", sys.exc_info()[0], sys.exc_info()[1])
         return False
 
     if operational_request.status is not (200 or 201):
-        testTools.fail()
+        test_tools.fail()
         print(" " * 2, "Returned: ", operational_request.status)
         return False
 
     #Queried ODL Inventory successfully
-    testTools.Pass()
+    test_tools.Pass()
 
     # Convert the request to a string and parse it into dictionary/lists using the json library
     operational_json = json.loads(operational_request.read().decode())
@@ -57,15 +57,15 @@ def check(controller_ip, username, password):
 
             if len(topology_list[i]) < 2:
                 #Boron Failure
-                testTools.fail()
+                test_tools.fail()
                 return False
             elif len(topology_list[i]["node"]) < 1:
                 #Beryllium Failure
-                testTools.fail()
+                test_tools.fail()
                 return False
             else:
                 operational_netconf = topology_list[i]["node"]
-                testTools.Pass()
+                test_tools.Pass()
 
     #Iterate over the Netconf nodes list and print the name and status
     for i in range(len(operational_netconf)):

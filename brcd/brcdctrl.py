@@ -1,11 +1,11 @@
 """
 Tools for reviewing the Brocade SDN Controller
 """
-import testTools
+import test_tools
 
 def check():
     """
     Determine the version of the Brocade SDN Controller
     """
-    testTools.name("BROCADE VERSION")
-    testTools.sysRun("cat /opt/brocade/bsc/versions/version.properties")
+    test_tools.name("BROCADE VERSION")
+    test_tools.sysRun("cat /opt/brocade/bsc/versions/version.properties")

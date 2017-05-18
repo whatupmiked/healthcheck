@@ -4,13 +4,13 @@ Tools for verying the state of the openflow plugin
 import urllib.request
 import json
 import sys
-import testTools
+import test_tools
 
 def check(controller_ip, username, password):
     """
     Verify the state of connected openflow devices
     """
-    testTools.name("OPENFLOW")
+    test_tools.name("OPENFLOW")
 
     #ODL query of opendaylight-inventory:nodes
     operational_db_odl = 'http://{0}:8181/restconf/operational/opendaylight-inventory:nodes/'.format(controller_ip)
@@ -28,17 +28,17 @@ def check(controller_ip, username, password):
         operational_openflow_request = urllib.request.urlopen(operational_db_odl)
     except:
         #Do not print error only that it failed.
-        testTools.fail()
+        test_tools.fail()
         print(" " * 1, "Unexpected error:", sys.exc_info()[0], sys.exc_info()[1])
         return False
 
     if operational_openflow_request.status is not (200 or 201):
-        testTools.fail()
+        test_tools.fail()
         print(" " * 2, "Returned: ", operational_openflow_request.status)
         return False
 
     #Queried ODL Inventory successfully
-    testTools.Pass()
+    test_tools.Pass()
 
     # Convert the request to a string and parse it into dictionary/lists using the json library
     operational_openflow_json = json.loads(operational_openflow_request.read().decode())
@@ -49,18 +49,18 @@ def check(controller_ip, username, password):
     if len(operational_openflow_json["nodes"]) > 0:
         operational_openflow = operational_openflow_json["nodes"]["node"]
     else:
-        testTools.fail()
+        test_tools.fail()
         return False
 
     if len(operational_openflow) < 1:
-        testTools.fail()
+        test_tools.fail()
         return False
     else:
         #Check if Beryllium ODL opendaylight-inventory
         if "controller-config" in operational_openflow[0].get('id'):
-            testTools.fail()
+            test_tools.fail()
         else:
-            testTools.Pass()
+            test_tools.Pass()
 
     # Iterate over the Openflow list and print the first item in the dictionary
     for i in range(len(operational_openflow)):
@@ -68,7 +68,7 @@ def check(controller_ip, username, password):
         if "controller-config" in operational_openflow[i].get('id'):
             print(" " * 4, "{0:{width}}".format("BERYLLIUM TOPOLOGY (controller-config)",
                                                 width=96), end='')
-            testTools.fail()
+            test_tools.fail()
             break
 
         #Print id, ip, hw-info, description, serial#
