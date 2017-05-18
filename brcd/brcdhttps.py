@@ -1,7 +1,13 @@
+"""
+Verify information about the HTTPS configuration of Brocade SDN Controller
+"""
 import os
 import testTools
 
 def check():
+    """
+    Check if HTTPS configuration file exists
+    """
     https_file_path = '/opt/brocade/configuration/customer/bsc/etc/org.ops4j.pax.web.cfg'
 
     testTools.name("HTTPS UI CONFIG")

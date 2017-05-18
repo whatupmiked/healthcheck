@@ -1,7 +1,13 @@
+"""
+Verify information about the java configuration for Brocade SDN Controller
+"""
 import os
 import testTools
 
 def check():
+    """
+    Check if file for modifying java settings exists
+    """
     java_config_path = '/opt/brocade/configuration/customer/bsc/etc/setenv.pre'
 
     testTools.name("JAVA CONFIG")
